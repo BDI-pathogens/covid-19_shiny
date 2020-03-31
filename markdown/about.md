@@ -13,7 +13,11 @@ output: html_document
     
 # About
 
-Authors:
+This Shiny app is created and maintained by <a href="https://michellekendall.github.io/" target="_blank">Michelle Kendall</a>. For questions and bug reports please use <a href="https://github.com/BDI-pathogens/covid-19_shiny/issues" target="_blank">GitHub's issue system</a>.
+
+
+
+The study authors were 
 <a href="https://sites.google.com/site/lucaferretti/" target="_blank">Luca Ferretti</a><sup>1\*</sup>,
 <a href="https://www.bdi.ox.ac.uk/Team/c-wymant" target="_blank">Chris Wymant</a><sup>1\*</sup>,
 <a href="https://michellekendall.github.io/" target="_blank">Michelle Kendall</a><sup>1</sup>,
@@ -49,8 +53,6 @@ UK
 <a href="https://www.well.ox.ac.uk/" target="_blank">Wellcome Centre for Human Genetics</a>,
 <a href="http://www.ox.ac.uk/" target="_blank">University of Oxford</a>, 
 UK
-
-Shiny app created and maintained by <a href="https://michellekendall.github.io/" target="_blank">Michelle Kendall</a>.
 
 Funded by the <a href="https://www.lksf.org/" target="_blank">Li Ka Shing Foundation</a>.
 

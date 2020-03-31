@@ -1,4 +1,7 @@
-# loading libraries, global values and initial starting parameters is handled in "global.R"
+# libraries, global functions and global values are handled in "global.R"
+
+# For the original (non-shiny) code see https://doi.org/10.5281/zenodo.3727255 
+# where it may be easier to follow without the reactive wrappers
 
 # Define server logic
 server <- function(input, output, session) {
@@ -8,11 +11,13 @@ server <- function(input, output, session) {
     shinyjs::reset("sidePanel")
   })
   
-  ################### 
-  # Get parameters 
-  ###################
+  #####################
+  # Infectiousness tab
+  #####################
   
-  # Parameters start using the values from "initial_params.RData" and then can be altered by the user
+  ### Get parameters 
+  
+  # Parameters start using our published values and then can be altered by the user
   getDoublingTime <- reactive({
     input$doublingTime
   })
@@ -45,12 +50,8 @@ server <- function(input, output, session) {
     input$serIntScale
   })
   
-  # xp used to be reactive, now we fix it to equal 1
-  # getXp <- reactive({
-  #   input$xp # the relative infectiousness of pre-symptomatic c.f. symptomatic individuals
-  # })
   getXp <- reactive({
-    1
+    1 # relative infectiousness of presymptomatic to symptomatic individuals (fixed at 1)
   })
   
   getXa <- reactive({
@@ -531,9 +532,8 @@ server <- function(input, output, session) {
     mainPlot <- ggplot(df.plot, aes(x=tau, y=beta)) + #, color=label)) +
       theme_bw(base_size = 18) +
       geom_area(aes(fill=label)) +
-      labs(x = expression(paste(tau, " (days)")),
-           y = expression(paste(beta, "(", tau,
-                                ")  (new infections per day)")),
+      labs(x = expression(paste("Days, ",tau)),
+           y = expression(paste("New infections per day, ",beta, "(", tau,")")),
            fill = bquote(paste('R'['0'] * ' = ' * .(format(round(R0, 1), nsmall = 1)) * ":" ))
       ) +
       coord_cartesian(xlim = c(0, max(tau.test)), ylim = c(0, ymax), expand = F) +
@@ -575,8 +575,8 @@ server <- function(input, output, session) {
       theme_bw(base_size = 18) +
       theme(legend.position="none") +
       geom_area(aes(fill=label)) +
-      labs(x = expression(paste(tau, " (days)")),
-           y = expression(paste("contribution to ", beta, "(", tau,")"))
+      labs(x = expression(paste("Days, ",tau)),
+           y = expression(paste("Contribution to ", beta, "(", tau,")"))
       ) +
       coord_cartesian(xlim = c(0, max(tau.test)), ylim = c(0, ymax), expand = F) +
       scale_fill_manual(values = cols[[1]])
@@ -585,7 +585,7 @@ server <- function(input, output, session) {
       theme_bw(base_size = 18) +
       theme(legend.position="none") +
       geom_area(aes(fill=label)) +
-      labs(x = expression(paste(tau, " (days)")),
+      labs(x = expression(paste("Days, ",tau)),
            y = ""
       ) +
       coord_cartesian(xlim = c(0, max(tau.test)), ylim = c(0, ymax), expand = F) +
@@ -595,7 +595,7 @@ server <- function(input, output, session) {
       theme_bw(base_size = 18) +
       theme(legend.position="none") +
       geom_area(aes(fill=label)) +
-      labs(x = expression(paste(tau, " (days)")),
+      labs(x = expression(paste("Days, ",tau)),
            y = ""
       ) +
       coord_cartesian(xlim = c(0, max(tau.test)), ylim = c(0, ymax), expand = F) +
@@ -605,7 +605,7 @@ server <- function(input, output, session) {
       theme_bw(base_size = 18) +
       theme(legend.position="none") +
       geom_area(aes(fill=label)) +
-      labs(x = expression(paste(tau, " (days)")),
+      labs(x = expression(paste("Days, ",tau)),
            y = ""
       ) +
       coord_cartesian(xlim = c(0, max(tau.test)), ylim = c(0, ymax), expand = F) +
@@ -618,7 +618,7 @@ server <- function(input, output, session) {
   # get the parameter summary to be written below the plot
   getParameterSummary <- reactive({
     validate(
-      need(try(theta <- getTheta()), "Parameters are too extreme for the integral to converge, please adjust one or more of the sliders")
+      need(try(theta <- getTheta()), "")
     )
     
     HTML(paste0("<h4>
@@ -658,8 +658,7 @@ server <- function(input, output, session) {
     s <- getSerIntScale()
     cols <- getCols()
     
-    # Make sure we capture at least 99% of the distribution in the plot.
-    xmax <- 20 # max(qlnorm(0.99, meanlog = m, sdlog = s), 20)
+    xmax <- 20 
     x <- seq(0,xmax,by=0.01)
     y <- sapply(x, function(x) dweibull(x,m,s))
       
@@ -735,9 +734,9 @@ server <- function(input, output, session) {
   
   #####################################################################################################
   
-  ###################
-  # CONTOUR PLOT TAB
-  ###################
+  #####################
+  # Interventions tab
+  #####################
   
   # define the reset button
   observeEvent(input$reset_inputContour, { 
@@ -745,7 +744,7 @@ server <- function(input, output, session) {
     shinyjs::reset("mainPanel2")
   })
   
-  # Largely a repeat of everything above, with "Contour" appended! Plus delay slider(s)
+  # Largely a repeat of everything above, with "Contour" appended! Plus delay slider:
   getDelay <- reactive({
     input$delay
   })
@@ -797,8 +796,7 @@ server <- function(input, output, session) {
     s <- getIncperSdlogContour()
     cols <- getCols()
     
-    # Make sure we capture at least 99% of the distribution in the plot
-    xmax <- 20 #max(qlnorm(0.99, meanlog = m, sdlog = s), 20)
+    xmax <- 20 
     x <- seq(0,xmax,by=0.01)
     y <- sapply(x, function(x) plnorm(x,m,s))
     
@@ -818,8 +816,7 @@ server <- function(input, output, session) {
     s <- getSerIntScaleContour()
     cols <- getCols()
     
-    # Make sure we capture at least 99% of the distribution in the plot.
-    xmax <- 20 # max(qlnorm(0.99, meanlog = m, sdlog = s), 20)
+    xmax <- 20
     x <- seq(0,xmax,by=0.01)
     y <- sapply(x, function(x) dweibull(x,m,s))
     
@@ -1145,13 +1142,13 @@ server <- function(input, output, session) {
     validate(need(R0 <- getR0Contour(), ""))
     r <- log(2) / getDoublingTimeContour()
     
-    HTML(paste0("<h4>The current choice of input parameters describes an epidemic 
-                where the reproduction number R0 = ",round(R0,1)," and the 
+    HTML(paste0("<h5>The current choice of input parameters describes an epidemic 
+                where the reproduction number R<sub>0</sub> = ",round(R0,1)," and the 
                 growth rate r = ",round(r,2)," <b>before</b> interventions are applied.
                 The colours in the plot indicate what the growth rate would be if interventions were applied
                 with a range of success rates: red corresponds to a growing epidemic, green to a declining epidemic.
                 The black line shows the combinations of success rates of interventions which are needed to achieve r = 0, the threshold for epidemic control.
-                </h4>"))
+                </h5>"))
   })
 
   ##########

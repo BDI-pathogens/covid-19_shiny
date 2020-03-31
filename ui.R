@@ -1,8 +1,6 @@
-# Define UI for application that draws a histogram
 ui <- navbarPage("Digital contact tracing for SARS-COV-2", 
-                 # CHECK is this the final title?
                  
-                 tags$head(includeHTML(("google-analytics.html"))),
+                 tags$head(includeHTML(("google-analytics.html"))), # google analytics token
                  
   theme = shinytheme("spacelab"), # change the theme here; use "themeSelector()" below for an easy way to pick
   #shinythemes::themeSelector(), # use this to dynamically select a theme
@@ -10,7 +8,7 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
   tabsetPanel(
     tabPanel(
       "Infectiousness",
-      HTML('<meta name="viewport" content="width=1024">'), # this should force "desktop view" on mobile
+      HTML('<meta name="viewport" content="width=1024">'), # forces "desktop view" on mobile
       
       # Sidebar with a slider inputs etc
       sidebarLayout(
@@ -27,8 +25,6 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
                       max = 12, # https://github.com/HopkinsIDD/ncov_incubation#parameter-estimates
                       step = 0.01,
                       value = exp(1.64)),
-          # bsTooltip("incperMedian", "[tooltip text for median incubation period]",
-          #           placement = "bottom", trigger = "hover", options = NULL),
           
           sliderInput("incperSdlog",
                       h6("sdlog parameter:"),
@@ -36,8 +32,6 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
                       max = 0.99,
                       step = 0.01,
                       value = 0.36),
-          # bsTooltip("incperSdlog", "[tooltip text for standard deviation of incubation period]",
-          #           placement = "bottom", trigger = "hover", options = NULL),
           
           # mini plot to show the chosen incubation period distribution
           h6("Chosen incubation period lognormal distribution"),
@@ -52,8 +46,6 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
                       max = 7,
                       step = 0.01,
                       value = 2.83),
-          # bsTooltip("serIntShape", "[tooltip text for median serial interval]",
-          #           placement = "bottom", trigger = "hover", options = NULL),
           
           sliderInput("serIntScale",
                       h6("Scale:"),
@@ -61,9 +53,7 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
                       max = 7,
                       step = 0.01,
                       value = 5.67),
-          # bsTooltip("serIntScale", "[tooltip text for standard deviation of serial interval]",
-          #           placement = "bottom", trigger = "hover", options = NULL),
-          
+         
           # mini plot to show the chosen generation time distribution
           h6("Chosen generation time Weibull distribution"),
           withSpinner(plotOutput("SerintDistribPlot", height="130px"), type=7),
@@ -76,8 +66,6 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
                       max = 10,
                       step = 0.01,
                       value = 5),
-          # bsTooltip("doublingTime", "[tooltip text for doubling time]",
-          #           placement = "bottom", trigger = "hover", options = NULL),
           
           hr(),
           
@@ -87,8 +75,6 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
                       max = 2,
                       step = 0.01,
                       value = 0.1),
-          # bsTooltip("xp", "[tooltip text for xa]",
-          #           placement = "bottom", trigger = "hover", options = NULL),
           
           hr(),
           
@@ -98,8 +84,6 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
                       max = 0.99, # 1 gives an error
                       step = 0.01,
                       value = 0.4),
-          # bsTooltip("P.a", "[tooltip text for P.a]",
-          #           placement = "bottom", trigger = "hover", options = NULL),
           
           sliderInput("frac.Re",
                       h5("Fraction of transmissions that are environmentally mediated:"),
@@ -107,8 +91,6 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
                       max = 0.99, # 1 gives an error
                       step = 0.01,
                       value = 0.1),
-          # bsTooltip("frac.Re", "[tooltip text for frac.Re]",
-          #           placement = "bottom", trigger = "hover", options = NULL),
           
           hr(),
           
@@ -140,21 +122,13 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
           
           # I would love to control the height of the plot dynamically so that it's, say, 50% of the window height,
           # but the documentation for "plotOutput" says it might behave weirdly, and it does!
-          # Tried using shinyjqui resizeable but it's a bit buggy
+          # Tried using shinyjqui resizeable but it's a bit buggy. Other suggestions welcome!
           withSpinner(plotOutput("mainPlot", height="400px"), type=7),
           
           withSpinner(plotOutput("decompositionPlot", height="200px"), type=7),
           
           withMathJax(uiOutput("parameterSummary")), # withMathJax enables LaTeX to be rendered
           
-          
-          # withMathJax(h5("Placeholder text to show you can insert LaTeX equations like this: $$\\beta(\\tau)= \\cdots $$")),
-          
-          # h5(HTML("<br/>
-          #         <br/> Placeholder text for references / credits / funders / links.
-          #         <br/>
-          #         <br/> <a href=\"https://www.medrxiv.org/\" target=\"_blank\">example of a hyperlink</a>")),
-          # 
           hr()
         ) # end "main" panel (the bit with the graphs and the explanations)
       ) # end "sidebarLayout"
@@ -163,7 +137,7 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
    
    tabPanel(
      "Interventions",
-     HTML('<meta name="viewport" content="width=1024">'), # this should force "desktop view" on mobile
+     HTML('<meta name="viewport" content="width=1024">'), # forces "desktop view" on mobile
      
      # Sidebar with a slider inputs etc
      sidebarLayout(
@@ -190,8 +164,6 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
                      max = 12, # https://github.com/HopkinsIDD/ncov_incubation#parameter-estimates
                      step = 0.01,
                      value = exp(1.64)),
-         # bsTooltip("incperMedian", "[tooltip text for median incubation period]",
-         #           placement = "bottom", trigger = "hover", options = NULL),
          
          sliderInput("incperSdlogContour",
                      h6("sdlog parameter:"),
@@ -199,8 +171,6 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
                      max = 0.99,
                      step = 0.01,
                      value = 0.36),
-         # bsTooltip("incperSdlog", "[tooltip text for standard deviation of incubation period]",
-         #           placement = "bottom", trigger = "hover", options = NULL),
          
          # mini plot to show the chosen incubation period distribution
          h6("Chosen incubation period lognormal distribution"),
@@ -215,8 +185,6 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
                      max = 7,
                      step = 0.01,
                      value = 2.83),
-         # bsTooltip("serIntShape", "[tooltip text for median serial interval]",
-         #           placement = "bottom", trigger = "hover", options = NULL),
          
          sliderInput("serIntScaleContour",
                      h6("Scale:"),
@@ -224,8 +192,6 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
                      max = 7,
                      step = 0.01,
                      value = 5.67),
-         # bsTooltip("serIntScale", "[tooltip text for standard deviation of serial interval]",
-         #           placement = "bottom", trigger = "hover", options = NULL),
          
          # mini plot to show the chosen generation time distribution
          h6("Chosen generation time Weibull distribution"),
@@ -248,8 +214,6 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
                      max = 2,
                      step = 0.01,
                      value = 0.1),
-         # bsTooltip("xp", "[tooltip text for xa]",
-         #           placement = "bottom", trigger = "hover", options = NULL),
          
          hr(),
          
@@ -259,8 +223,6 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
                      max = 0.99, # 1 gives an error
                      step = 0.01,
                      value = 0.4),
-         # bsTooltip("P.a", "[tooltip text for P.a]",
-         #           placement = "bottom", trigger = "hover", options = NULL),
          
          sliderInput("frac.ReContour",
                      h5("Fraction of transmissions that are environmentally mediated:"),
@@ -268,8 +230,6 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
                      max = 0.99, # 1 gives an error
                      step = 0.01,
                      value = 0.1),
-         # bsTooltip("frac.Re", "[tooltip text for frac.Re]",
-         #           placement = "bottom", trigger = "hover", options = NULL),
          
          hr(),
          
@@ -297,8 +257,6 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
                   actionButton("reset_inputContour", "Reset values")
          ),
          
-         # h3("The maximum R0 which could be contained with instant interventions of the given efficiencies"),
-         
          h3("Daily epidemic growth rate r, with interventions of varying efficiencies"),
          
          withMathJax(uiOutput("contourDescribeDelay")),
@@ -307,7 +265,7 @@ ui <- navbarPage("Digital contact tracing for SARS-COV-2",
          
          withMathJax(uiOutput("contourDescribeR0")),
          
-         helpText("Please note that our published results use a higher resolution and a tighter tolerance for convergence;
+         h5("Please note that our published results use a higher resolution and a tighter tolerance for convergence;
                   for ease of use we perform a faster approximation here."),
          
          hr()

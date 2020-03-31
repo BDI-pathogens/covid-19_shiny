@@ -15,9 +15,9 @@ output: html_document
 
 # Details
 
-For full details of the analysis please see our <a href="https://doi.org/10.1101/2020.03.08.20032946" target="_blank">medRxiv preprint</a>.
+For full details of our work please see our <a href="https://045.medsci.ox.ac.uk/" target="_blank">website</a> and our <a href="https://science.sciencemag.org/lookup/doi/10.1126/science.abb6936" target="_blank">paper in *Science*</a>.
 
-This app provides a convenient way to test the sensitivity of our results to our estimated input parameters.
+This app provides a convenient way to test the sensitivity of our results to our assumptions.
 The "reset values" button in the top right allows you to return to the original values presented in our paper.
 
 Here we provide further explanation of the results and a description of each of the input parameters.
@@ -64,7 +64,7 @@ We also report $\theta = 1 - \dfrac{R_p}{R_0}$, the proportion of transmissions 
 ### Interventions
 
 In the **Interventions** tab we present a heat map of the growth rate $r$ of the epidemic when the interventions of isolation and quarantining of contacts are applied with different success rates, either instantly or after a given delay.
-The calculations for this follow the approach of <a href="https://doi.org/10.1073/pnas.0307506101" target="_blank">Fraser et al. 2004</a> and are detailed in our Supplementary Information.
+The calculations for this follow the approach of <a href="https://doi.org/10.1073/pnas.0307506101" target="_blank">Fraser et al. 2004</a> and are detailed in our <a href="https://science.sciencemag.org/lookup/doi/10.1126/science.abb6936" target="_blank">Supplementary Information</a>.
 
 From the time an individual becomes symptomatic, we model them being isolated with efficacy $\epsilon_I$, and contact-tracing and quarantining being performed with efficacy $\epsilon_T$.
 These processes of isolation and quarantining of contacts can be modelled as happening instantaneously (delay $=0$) or with a specified delay of up to 72 hours using the slider bar.
@@ -72,13 +72,12 @@ For the chosen input parameters and for each combination of $\epsilon_I$ and $\e
 If $r$ is positive (red area of the heat map) then the epidemic is growing and if $r$ is negative (green area of the heat map) then the epidemic is declining. 
 The black line higlights the values where $r=0$, the threshold for epidemic control.
 
-
-By adjusting the assumptions of the model in the left sidebar we can see that even with some delays, there are combinations of isolation and quarantining of contacts with significantly less-than-perfect efficacy for which the epidemic is controllable.
+By adjusting the assumptions of the model in the left sidebar we can see that even with some delays, there are combinations of interventions of isolation and quarantining of contacts with significantly less-than-perfect efficacy for which the epidemic is controllable.
 
 ### Input parameters
 
 The user may vary the following input parameters.
-Here we define them and provide justification for their starting values.
+Here we define them and briefly provide our justification for their starting values.
 
 The **incubation period** is defined as the time between infection and onset of symptoms. 
 It is estimated as the time between exposure and report of noticeable symptoms. 
