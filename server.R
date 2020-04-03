@@ -1090,16 +1090,16 @@ server <- function(input, output, session) {
         }
         m[ci,cj]<-tryCatch(uniroot(eigen,interval = c(-2,2))$root, error = function(e) {return(NA)} ) }
     }
-    colnames(m)<-c(1:(n-1))/n
-    rownames(m)<-c(1:(n-1))/n
+    #colnames(m)<-c(1:(n-1))/n
+    #rownames(m)<-c(1:(n-1))/n
     
     df <- tibble(x=numeric((n-1)^2), y=numeric((n-1)^2), z=numeric((n-1)^2))
     count <- 0
     for (i in 1:(n-1)) {
       for (j in 1:(n-1)) {
         count <- count + 1
-        df[count,] <- list(x = rownames(m)[[i]],
-                           x = colnames(m)[[j]],
+        df[count,] <- list(x = ((1:(n-1))/n)[[i]],
+                           y = ((1:(n-1))/n)[[j]],
                            z = m[i,j])
       }
     }
