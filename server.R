@@ -113,19 +113,22 @@ server <- function(input, output, session) {
                 P.a = P.a, 
                 xp = xp)$value
     
-    env.scale.constant <- (1 + P.a * xa * integral.of.model.gen.beta.s.div.by.RSorP) / 
+    validate(need(try( env.scale.constant <- (1 + P.a * xa * integral.of.model.gen.beta.s.div.by.RSorP) / 
       (((1 / frac.Re) - 1) * integrate(model.gen.beta.env.div.by.E.RSorP,
-                                       lower = 0, 
-                                       upper = Inf,
-                                       serint.scale = serint.scale,
-                                       serint.shape = serint.shape,
-                                       incper.meanlog = incper.meanlog,
-                                       incper.sdlog = incper.sdlog,
-                                       P.a = P.a,
-                                       xp = xp,
-                                       env.decay.rate = env.decay.rate,
-                                       env.constant.duration = env.constant.duration,
-                                       env.infectiousness.type = env.infectiousness.type)$value)
+                       lower = 0, 
+                       upper = Inf,
+                       serint.scale = serint.scale,
+                       serint.shape = serint.shape,
+                       incper.meanlog = incper.meanlog,
+                       incper.sdlog = incper.sdlog,
+                       P.a = P.a,
+                       xp = xp,
+                       env.decay.rate = env.decay.rate,
+                       env.constant.duration = env.constant.duration,
+                       env.infectiousness.type = env.infectiousness.type)$value
+      )
+    ), "Parameters are too extreme for the integral to converge, please adjust one or more of the sliders"))
+           
     
     
     RSorP <- 1 / integrate(function(tau) {
@@ -995,7 +998,7 @@ server <- function(input, output, session) {
                 P.a = P.a, 
                 xp = xp)$value
     
-    env.scale.constant <- (1 + P.a * xa * integral.of.model.gen.beta.s.div.by.RSorP) / 
+    validate(need(try( env.scale.constant <- (1 + P.a * xa * integral.of.model.gen.beta.s.div.by.RSorP) / 
       (((1 / frac.Re) - 1) * integrate(model.gen.beta.env.div.by.E.RSorP,
                                        lower = 0, 
                                        upper = Inf,
@@ -1008,7 +1011,7 @@ server <- function(input, output, session) {
                                        env.decay.rate = env.decay.rate,
                                        env.constant.duration = env.constant.duration,
                                        env.infectiousness.type = env.infectiousness.type)$value)
-    
+    ), "Parameters are too extreme for the integral to converge, please adjust one or more of the sliders"))
     
     RSorP <- 1 / integrate(function(tau) {
       model.gen.full.beta.div.by.RSorP(tau = tau, 
